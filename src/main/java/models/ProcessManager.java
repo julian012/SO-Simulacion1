@@ -1,5 +1,6 @@
 package models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ProcessManager {
@@ -16,6 +17,7 @@ public class ProcessManager {
 	private ArrayList<Process> expireList; //Cola de Expiración de Tiempo
 	private ArrayList<Process> blockedList; //Cola de Bloqueado
 	private ArrayList<Process> exitList; //Cola de Salida
+	private ArrayList<ProcessInfo> info;
 	
 	public ProcessManager() {
 		processList = new ArrayList<Process>();
@@ -28,11 +30,26 @@ public class ProcessManager {
 		blockedList = new ArrayList<Process>();
 		exitList = new ArrayList<Process>();
 	}
+
+	public ArrayList<ProcessInfo> setList(){
+		info = new ArrayList<ProcessInfo>();
+		info.add(new ProcessInfo("Cola de Procesos",processList));
+		info.add(new ProcessInfo("Cola de Listos", readyList));
+		info.add(new ProcessInfo("Cola de Ejecucion", executionList));
+		info.add(new ProcessInfo("Cola de Bloqueo", blockList));
+		info.add(new ProcessInfo("Cola de Despertar", wakeList));
+		info.add(new ProcessInfo("Cola de Despacho", packoffList));
+		info.add(new ProcessInfo("Cola de Expiracion de Tiempo", expireList));
+		info.add(new ProcessInfo("Cola de Bloqueado", blockedList));
+		info.add(new ProcessInfo("Cola de Salida", exitList));
+		return info;
+	}
 	
 	public void test() {
-		processList.add(new Process(1, "Proceso 1", 10, true));
-		processList.add(new Process(2, "Proceso 2", 8, false));
-		processList.add(new Process(3, "Proceso 3", 9, true));
+		for (int i = 0; i < (Math.random()*100); i++){
+			processList.add(new Process(i, "Proceso " + i, 	(int)(Math.random()*100), true));
+		}
+
 		for (Process process : processList) {
 			excecuteProcess(process);
 		}
