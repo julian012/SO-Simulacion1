@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'Sistemas Operativos'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/com.itextpdf/itext7-core
+    compile group: 'com.itextpdf', name: 'itext7-core', version: '7.1.4', ext: 'pom'
+}
