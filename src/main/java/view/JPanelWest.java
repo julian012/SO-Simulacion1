@@ -9,7 +9,8 @@ import java.awt.event.ActionListener;
 
 public class JPanelWest extends JPanel {
 
-    private JLabel jLTitle;
+	private static final long serialVersionUID = 1L;
+	private JLabel jLTitle;
     private JLabel jLName;
     private JTextField jTFName;
     private JLabel jLTime;

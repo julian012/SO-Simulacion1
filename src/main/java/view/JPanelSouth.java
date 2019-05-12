@@ -5,7 +5,8 @@ import java.awt.*;
 
 public class JPanelSouth extends JPanel {
 
-    private JLabel jLInfo;
+	private static final long serialVersionUID = 1L;
+	private JLabel jLInfo;
 
     public JPanelSouth(){
         setBackground(Color.decode("#333333"));

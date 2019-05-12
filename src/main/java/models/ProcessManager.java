@@ -1,6 +1,5 @@
 package models;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ProcessManager {
@@ -10,11 +9,11 @@ public class ProcessManager {
 	
 	private ArrayList<Process> processList;
 	private ArrayList<Process> readyList; //Cola de Listos
-	private ArrayList<Process> executionList; //Cola de Ejecución
+	private ArrayList<Process> executionList; //Cola de Ejecuciï¿½n
 	private ArrayList<Process> blockList; //Cola de Bloqueo
 	private ArrayList<Process> wakeList; //Cola de Despertar
 	private ArrayList<Process> packoffList; //Cola de Despacho
-	private ArrayList<Process> expireList; //Cola de Expiración de Tiempo
+	private ArrayList<Process> expireList; //Cola de Expiraciï¿½n de Tiempo
 	private ArrayList<Process> blockedList; //Cola de Bloqueado
 	private ArrayList<Process> exitList; //Cola de Salida
 	private ArrayList<ProcessInfo> info;
@@ -46,7 +45,12 @@ public class ProcessManager {
 	}
 
 	public Process addProcess(String name, int time, boolean blocked){
-		Process process = new Process(processList.size(), name, time, blocked);
+		Process process;
+		if(processList.size() == 0) {
+			process = new Process(processList.size(), name, time, blocked);
+		}else {
+			process = new Process(processList.get(processList.size() - 1).getProcessId() + 1, name, time, blocked);
+		}
 		processList.add(process);
 		return process;
 	}
@@ -57,7 +61,7 @@ public class ProcessManager {
 		}
 		System.out.println("Cola de Listos \n\n");
 		System.out.println(readyList);
-		System.out.println("Cola de Ejecución \n\n");
+		System.out.println("Cola de EjecuciÃ³n \n\n");
 		System.out.println(executionList);
 		System.out.println("Cola de Bloqueo \n\n");
 		System.out.println(blockList);
@@ -65,12 +69,11 @@ public class ProcessManager {
 		System.out.println(wakeList);
 		System.out.println("Cola de Despacho \n\n");
 		System.out.println(packoffList);
-		System.out.println("Cola de Expiración de Tiempo \n\n");
+		System.out.println("Cola de ExpiraciÃ³n de Tiempo \n\n");
 		System.out.println(expireList);
 		System.out.println("Cola de Bloqueado \n\n");
 		System.out.println(blockedList);
-		System.out.println("Cola de Salida"
-				+ " \n\n");
+		System.out.println("Cola de Salida \n\n");
 		System.out.println(exitList);
 	}
 
@@ -104,16 +107,25 @@ public class ProcessManager {
 
 	public void cleanProcessList(){
 		readyList.clear();
-		executionList.clear(); //Cola de Ejecución
+		executionList.clear(); //Cola de Ejecuciï¿½n
 		blockList.clear(); //Cola de Bloqueo
 		wakeList.clear(); //Cola de Despertar
 		packoffList.clear(); //Cola de Despacho
-		expireList.clear(); //Cola de Expiración de Tiempo
+		expireList.clear(); //Cola de Expiraciï¿½n de Tiempo
 		blockedList.clear(); //Cola de Bloqueado
 		exitList.clear(); //Cola de Salida
 	}
 
 	public void cleanlist(){
 		processList.clear();
+	}
+	
+	public void deleteProcess(int id) {
+		for(int i=0; i< processList.size(); i++) {
+			if(processList.get(i).getProcessId() == id) {
+				processList.remove(i);
+				return;
+			}			
+		}
 	}
 }

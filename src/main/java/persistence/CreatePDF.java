@@ -2,7 +2,6 @@ package persistence;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.List;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -18,7 +17,7 @@ import java.util.Date;
 public class CreatePDF {
     private static final Font chapterFont = FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD);
     private static final Font paragraphFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
-    private static String FILE = "FirstPdf1.pdf";
+    private static String FILE = "../FirstPdf1.pdf";
 
     private static void addMetaData(Document document) {
         document.addTitle("My first PDF");
@@ -97,13 +96,6 @@ public class CreatePDF {
 
     }
 
-    private static void createList(Section subCatPart) {
-        List list = new List(true, false, 10);
-        list.add(new ListItem("First point"));
-        list.add(new ListItem("Second point"));
-        list.add(new ListItem("Third point"));
-        subCatPart.add(list);
-    }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {

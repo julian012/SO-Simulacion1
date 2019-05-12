@@ -12,12 +12,13 @@ import java.awt.event.WindowEvent;
 public class JFMainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanelNorth jPanelNorth;
 	private JPanelWest jPanelWest;
 	private JPanelEast jPanelEast;
 	private JPanelSouth jPanelSouth;
+	private Controller controller;
 
 	public JFMainWindow(Controller controller) {
+		this.controller = controller;
 		getContentPane().setBackground(Color.decode("#333333"));
 		setUIManager();
 		setTitle(Constraints.TITLE);
@@ -82,7 +83,7 @@ public class JFMainWindow extends JFrame {
 	}
 
 	public void addProcessInTable(Process process){
-		jPanelEast.addProcess(process);
+		jPanelEast.addProcess(process,controller);
 	}
 
 	public void clearTable(){
