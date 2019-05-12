@@ -88,7 +88,7 @@ public class CreatePDF {
             Process process = info.getProcessList().get(i);
             table.addCell(String.valueOf(process.getProcessId()));
             table.addCell(process.getProcessName());
-            table.addCell(String.valueOf(process.getProcessTime()));
+            table.addCell(String.valueOf(Utilities.quitNegativeNumbers(process.getProcessTime())));
             table.addCell(Utilities.booleanToString(process.isProcessBlock()));
         }
         preface.add(table);

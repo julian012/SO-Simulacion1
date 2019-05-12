@@ -1,5 +1,7 @@
 package models;
 
+import utilities.Utilities;
+
 public class Process {
 	
 	private int processId;
@@ -44,6 +46,10 @@ public class Process {
 
 	public void setProcessBlock(boolean processBlock) {
 		this.processBlock = processBlock;
+	}
+
+	public Object[] toObject(){
+		return new Object[]{getProcessId(), getProcessName(), getProcessTime(), Utilities.booleanToString(isProcessBlock())};
 	}
 
 	@Override

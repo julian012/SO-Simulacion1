@@ -44,12 +44,14 @@ public class ProcessManager {
 		info.add(new ProcessInfo("Cola de Salida", exitList));
 		return info;
 	}
-	
-	public void test() {
-		for (int i = 0; i < (Math.random()*100); i++){
-			processList.add(new Process(i, "Proceso " + i, 	(int)(Math.random()*100), true));
-		}
 
+	public Process addProcess(String name, int time, boolean blocked){
+		Process process = new Process(processList.size(), name, time, blocked);
+		processList.add(process);
+		return process;
+	}
+	
+	public void generateReport() {
 		for (Process process : processList) {
 			excecuteProcess(process);
 		}
@@ -98,5 +100,20 @@ public class ProcessManager {
 			}
 			excecuteProcess(processEx);
 		}
+	}
+
+	public void cleanProcessList(){
+		readyList.clear();
+		executionList.clear(); //Cola de Ejecución
+		blockList.clear(); //Cola de Bloqueo
+		wakeList.clear(); //Cola de Despertar
+		packoffList.clear(); //Cola de Despacho
+		expireList.clear(); //Cola de Expiración de Tiempo
+		blockedList.clear(); //Cola de Bloqueado
+		exitList.clear(); //Cola de Salida
+	}
+
+	public void cleanlist(){
+		processList.clear();
 	}
 }
