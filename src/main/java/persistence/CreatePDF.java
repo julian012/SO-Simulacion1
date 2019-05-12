@@ -17,7 +17,7 @@ import java.util.Date;
 public class CreatePDF {
     private static final Font chapterFont = FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD);
     private static final Font paragraphFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
-    private static String FILE = "../FirstPdf1.pdf";
+    private static String FILE = "c:/Temp/Resultado Simulación.pdf";
 
     private static void addMetaData(Document document) {
         document.addTitle("My first PDF");

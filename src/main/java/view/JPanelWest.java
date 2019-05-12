@@ -44,7 +44,7 @@ public class JPanelWest extends JPanel {
         constraints.weighty = 0.3;
         this.add(jLTitle, constraints);
 
-        jLName = new JLabel("Nombre del proceso:");
+        jLName = new JLabel("Nombre del proceso: ");
         jLName.setForeground(Color.white);
         constraints.gridx = 1;
         constraints.gridy = 2;
@@ -62,7 +62,7 @@ public class JPanelWest extends JPanel {
         constraints.weighty = 0.01;
         this.add(jTFName, constraints);
 
-        jLTime = new JLabel("Tiempo del Proceso: ");
+        jLTime = new JLabel("Tiempo del proceso: ");
         jLTime.setForeground(Color.white);
         constraints.gridx = 1;
         constraints.gridy = 3;
