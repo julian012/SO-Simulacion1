@@ -316,6 +316,9 @@ public class JPanelWest extends JPanel implements ActionListener{
     public void cleanAll(){
         jTFName.setText("");
         jSTime.setText("");
+        jTFConnectProcess.setText("");
+        jTFNewPriority.setText("");
+        jTFPriority.setText("");
     }
 
     public String getNameProcess(){

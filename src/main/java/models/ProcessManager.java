@@ -46,15 +46,15 @@ public class ProcessManager {
 		//Prioridad//Nueva Prioridad//Nombre Proceso//Tiempo proceso
 		//Bloqueado//Destruido//Suspender
 		//Conectado
-		processList.add(new Process(3, 3, "P10", 8, false, true, false, "No"));//P10
-		processList.add(new Process(2, 2, "P20", 9, true, false, true, "No"));//P20
-		processList.add(new Process(6, 6, "P30", 7, false, false, false, "No"));//P30
-		processList.add(new Process(4, 4, "P40", 5, false, true, false, "No"));//P40
-		processList.add(new Process(7, 7, "P50", 11, false, false, false, "YES"));//P50
-		processList.add(new Process(5, 5, "P60", 13, false, false, false, "No"));//P60
-		processList.add(new Process(8, 1, "P70", 18, false, false, false, "No"));//P70
-		processList.add(new Process(9, 9, "P80", 14, false, false, false, "No"));//P80
-		processList.add(new Process(10, 10, "P90", 13, true, true, true, "No"));//P90
+		processList.add(new Process(3, 3, "P1", 8, false, true, false, "No"));//P10
+		processList.add(new Process(2, 2, "P2", 9, true, false, true, "No"));//P20
+		//processList.add(new Process(6, 6, "P30", 7, false, false, false, "No"));//P30
+		//processList.add(new Process(4, 4, "P40", 5, false, true, false, "No"));//P40
+		processList.add(new Process(7, 7, "P5", 11, false, false, false, "YES"));//P50
+		//processList.add(new Process(5, 5, "P60", 13, false, false, false, "No"));//P60
+		//processList.add(new Process(8, 1, "P70", 18, false, false, false, "No"));//P70
+		//processList.add(new Process(9, 9, "P80", 14, false, false, false, "No"));//P80
+		processList.add(new Process(10, 10, "P9", 13, true, true, true, "No"));//P90
 	}
 
 	public ArrayList<ProcessInfo> setList(){
@@ -79,7 +79,7 @@ public class ProcessManager {
 			boolean processBlock, boolean processDestroy, boolean processLayoff, String connectProcess){
 		Process process = new Process(processPriority, newProcessPriority, processName, processTime, 
 				processBlock, processDestroy, processLayoff, connectProcess);
-				
+		processList.add(process);	
 		return process;
 	}
 	
