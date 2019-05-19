@@ -17,7 +17,7 @@ import java.util.Date;
 public class CreatePDF {
     private static final Font chapterFont = FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD);
     private static final Font paragraphFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
-    private static String FILE = "c:/Temp/Resultado Simulación.pdf";
+    private static String FILE = System.getProperty("user.home") + "/Reporte Simulacion.pdf";
 
     private static void addMetaData(Document document) {
         document.addTitle("My first PDF");
@@ -25,6 +25,8 @@ public class CreatePDF {
         document.addKeywords("Java, PDF, iText");
         document.addAuthor("Lars Vogel");
         document.addCreator("Lars Vogel");
+        document.left(100f);
+        document.top(150f);
 
     }
 
@@ -59,14 +61,14 @@ public class CreatePDF {
         preface.add(new Paragraph(info.getName(), chapterFont));
         System.out.println(info.getName());
         addEmptyLine(preface, 1);
-        PdfPTable table = new PdfPTable(4);
+        PdfPTable table = new PdfPTable(7);
 
         // table.setBorderColor(BaseColor.GRAY);
         // t.setPadding(4);
         // t.setSpacing(4);
         // t.setBorderWidth(1);
 
-        PdfPCell c1 = new PdfPCell(new Phrase("Id"));
+        PdfPCell c1 = new PdfPCell(new Phrase("Prioridad"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
@@ -82,13 +84,31 @@ public class CreatePDF {
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
         table.setHeaderRows(1);
+        
+        c1 = new PdfPCell(new Phrase("Destruir"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+        table.setHeaderRows(1);
+        
+        c1 = new PdfPCell(new Phrase("Suspender"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+        table.setHeaderRows(1);
+        
+        c1 = new PdfPCell(new Phrase("Comunicar"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+        table.setHeaderRows(1);
 
         for (int i = 0; i< info.getProcessList().size(); i++){
             Process process = info.getProcessList().get(i);
-            table.addCell(String.valueOf(process.getProcessId()));
+            table.addCell(String.valueOf(process.getNewProcessPriority()));
             table.addCell(process.getProcessName());
             table.addCell(String.valueOf(Utilities.quitNegativeNumbers(process.getProcessTime())));
             table.addCell(Utilities.booleanToString(process.isProcessBlock()));
+            table.addCell(Utilities.booleanToString(process.isProcessDestroy()));
+            table.addCell(Utilities.booleanToString(process.isProcessLayoff()));
+            table.addCell(process.getConnectProcess());
         }
         preface.add(table);
         document.add(preface);
@@ -104,7 +124,7 @@ public class CreatePDF {
     }
 
     public void createReport(ArrayList<ProcessInfo> list) throws DocumentException, IOException {
-            Document document = new Document();
+            Document document = new Document(PageSize.A4.rotate());
             FileOutputStream pdf = new FileOutputStream(FILE);
             PdfWriter.getInstance(document,pdf);
             document.open();

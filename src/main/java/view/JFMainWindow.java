@@ -1,5 +1,6 @@
 package view;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import controller.Controller;
@@ -8,6 +9,8 @@ import models.Process;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class JFMainWindow extends JFrame {
 
@@ -16,20 +19,33 @@ public class JFMainWindow extends JFrame {
 	private JPanelEast jPanelEast;
 	private JPanelSouth jPanelSouth;
 	private Controller controller;
+	private BufferedImage image;
 
 	public JFMainWindow(Controller controller) {
+		initImages();
 		this.controller = controller;
-		getContentPane().setBackground(Color.decode("#333333"));
+		getContentPane().setBackground(Color.decode("#E6E6FA"));
 		setUIManager();
+		setIconImage(image);
 		setTitle(Constraints.TITLE);
-		setSize((int)(getToolkit().getScreenSize().getWidth()*0.8),(int)(getToolkit().getScreenSize().getHeight()*0.45));
+		this.setExtendedState(MAXIMIZED_BOTH);
+		setSize((int)(getToolkit().getScreenSize().getWidth()),(int)(getToolkit().getScreenSize().getHeight()));
 		setLocationRelativeTo(null);
 		setResizable(false);
+		setUndecorated(true);
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setLayout(new BorderLayout());
 		initComponents(controller);
 		addWindowsListenerOption();
 		cleanForm();
+	}
+	
+	public void initImages() {
+		try {
+			image = ImageIO.read(getClass().getResource("/Img/Icon.png"));
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void initComponents(Controller controller){
@@ -54,6 +70,10 @@ public class JFMainWindow extends JFrame {
 		if (JOptionPane.showConfirmDialog(this, "¿Desea realmente salir del sistema?",
 				"Salir del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
 			System.exit(0);
+	}
+	
+	public void minimize() {
+		setExtendedState(ICONIFIED);
 	}
 
 	public void setUIManager() {
@@ -81,6 +101,27 @@ public class JFMainWindow extends JFrame {
 	public boolean isBlockedProcess(){
 		return jPanelWest.isBlocked();
 	}
+	
+
+    public int getPriority() {
+    	return jPanelWest.getPriority();
+    }
+    
+    public int getNewPriority() {
+    	return jPanelWest.getNewPriority();
+    }
+    
+    public boolean isDestroy() {
+    	return jPanelWest.isDestroy();
+    }
+    
+    public boolean isLayoff() {
+    	return jPanelWest.isLayoff();
+    }
+    
+    public String isConnect() {
+    	return jPanelWest.isConnect();
+    }
 
 	public void addProcessInTable(Process process){
 		jPanelEast.addProcess(process,controller);

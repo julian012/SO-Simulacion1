@@ -25,7 +25,11 @@ public class Controller implements ActionListener {
 		//manager.test();
 		mainWindow = new JFMainWindow(this);
 		mainWindow.setVisible(true);
-		//test();
+		test();
+	}
+	
+	public void test() {
+		loadProcessInTable();
 	}
 
 	public void createReport(){
@@ -39,8 +43,10 @@ public class Controller implements ActionListener {
 				
 			} catch (DocumentException e) {
 				e.printStackTrace();
+				manager.cleanProcessList();
 			} catch (IOException e) {
 				e.printStackTrace();
+				manager.cleanProcessList();
 			}
 		}else {
 			showMessage("No tiene procesos en lista", "Error");
@@ -60,9 +66,14 @@ public class Controller implements ActionListener {
 	}
 
 	public void addProcess(){
+		int priority = mainWindow.getPriority(); //Prioridad
+		int newPriority = mainWindow.getNewPriority(); //Nueva prioridad
 		String name = mainWindow.getNameProcess();
 		int time = mainWindow.getTimeProcess();
 		boolean blocked = mainWindow.isBlockedProcess();
+		boolean isDestroy = mainWindow.isDestroy();//Destruido
+		boolean isLayoff = mainWindow.isLayoff();//Suspendido
+		String connectProcess = mainWindow.isConnect();	//Conectado
 		if(time <= 0){
 			showMessage("El tiempo del proceso debe ser mayor a 0","Error");
 		}
@@ -71,7 +82,7 @@ public class Controller implements ActionListener {
 		}
 		if(time > 0 && name.length() > 0){
 			if(Utilities.exist(name, manager.getProcessList())) {
-				Process process = manager.addProcess(name,time,blocked);
+				Process process = manager.addProcess(priority, newPriority,name,time,blocked, isDestroy, isLayoff, connectProcess);
 				mainWindow.addProcessInTable(process);
 			}else {
 				showMessage("Proceso con ese nombre ya existe en la lista", "Error");
@@ -85,14 +96,14 @@ public class Controller implements ActionListener {
 		JOptionPane.showMessageDialog(mainWindow,message, error, JOptionPane.ERROR_MESSAGE,null);
 	}
 	
-	public void deleteProcess(int id) {
+	/*public void deleteProcess(int id) {
 		if(JOptionPane.showConfirmDialog(mainWindow, "¿Segundo que desea borrar el proceso con Id: " + id +"?",
 				"Pregunta", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
 			manager.deleteProcess(id);
 			mainWindow.clearTable();
 			loadProcessInTable();
 		}
-	}
+	}*/
 	
 	public void loadProcessInTable() {
 		ArrayList<Process> list = manager.getProcessList();
@@ -105,7 +116,6 @@ public class Controller implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		try {
 			switch (Events.valueOf(e.getActionCommand())){
 			case ADD:
 				addProcess();
@@ -117,10 +127,13 @@ public class Controller implements ActionListener {
 			case START:
 				createReport();
 				break;
+			case CLOSE:
+				mainWindow.close();
+				break;
+			case MINIMIZE:
+				mainWindow.minimize();
+				break;
 			}
-		}catch (Exception ex) {
-			deleteProcess(Integer.valueOf(e.getActionCommand()));
-		}
 		
 		
 	}

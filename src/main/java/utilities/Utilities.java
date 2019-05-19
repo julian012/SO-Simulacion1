@@ -22,4 +22,8 @@ public class Utilities {
 		}
     	return true;
     }
+    
+    public static String newPriority(int priority, int newPriority) {
+    	return (priority == newPriority)? "No": newPriority + "";
+    }
 }
