@@ -28,6 +28,9 @@ public class JPanelWest extends JPanel implements ActionListener{
     private JLabel jLTime;
     private JTextField jSTime;
     
+    private JLabel jLExcecute;
+    private JCheckBox jCBExcecute;
+    
     private JLabel jLBlock;
     private JCheckBox jCBlock;
     
@@ -57,6 +60,28 @@ public class JPanelWest extends JPanel implements ActionListener{
         constraints.fill = GridBagConstraints.BOTH;
         initComponents();
         this.setVisible(true);
+    }
+    
+    public void createTimeProcess() {
+    	 jLPriority = new JLabel("Establecer prioridad");
+         jLPriority.setForeground(Color.decode("#2E8B57"));
+         constraints.gridx = 1;
+         constraints.gridy = 4;
+         constraints.gridwidth = 1;
+         constraints.weightx = 0.5;
+         constraints.weighty = 0.01;
+         this.add(jLPriority, constraints);
+         
+         jTFPriority = new JTextField();
+     	jTFPriority.setPreferredSize(new Dimension(200,60));
+     	 ((AbstractDocument) jTFPriority.getDocument()).setDocumentFilter(new CustomDocumentFilter());
+         constraints.insets = new Insets(5,5,5,5);
+         constraints.gridx = 2;
+         constraints.gridy = 4;
+         constraints.gridwidth = 1;
+         //constraints.weightx = 0.04;
+         constraints.weighty = 0.01;
+         this.add(jTFPriority, constraints);
     }
 
     public void initComponents(){
@@ -110,25 +135,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         constraints.weighty = 0.01;
         this.add(jTFName, constraints);
         
-        jLPriority = new JLabel("Establecer prioridad");
-        jLPriority.setForeground(Color.decode("#2E8B57"));
-        constraints.gridx = 1;
-        constraints.gridy = 4;
-        constraints.gridwidth = 1;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.01;
-        this.add(jLPriority, constraints);
-        
-        jTFPriority = new JTextField();
-    	jTFPriority.setPreferredSize(new Dimension(200,60));
-    	 ((AbstractDocument) jTFPriority.getDocument()).setDocumentFilter(new CustomDocumentFilter());
-        constraints.insets = new Insets(5,5,5,5);
-        constraints.gridx = 2;
-        constraints.gridy = 4;
-        constraints.gridwidth = 1;
-        //constraints.weightx = 0.04;
-        constraints.weighty = 0.01;
-        this.add(jTFPriority, constraints);
+        createTimeProcess();
         
     	jLNewPriority = new JLabel("¿Nueva prioridad?");
     	jLNewPriority.setForeground(Color.decode("#2E8B57"));
@@ -185,12 +192,31 @@ public class JPanelWest extends JPanel implements ActionListener{
         //constraints.weightx = 0.04;
         constraints.weighty = 0.1;
         this.add(jSTime, constraints);
+        
+        jLExcecute = new JLabel("¿Se ejecuta?");
+        jLExcecute.setForeground(Color.decode("#2E8B57"));
+        constraints.insets = new Insets(0,0,0,0);
+        constraints.gridx = 1;
+        constraints.gridy = 8;
+        constraints.gridwidth = 1;
+        //constraints.weightx = 0.04;
+        constraints.weighty = 0.1;
+        this.add(jLExcecute, constraints);
+        
+        jCBExcecute = new JCheckBox();
+        jCBExcecute.setOpaque(false);
+        constraints.gridx = 2;
+        constraints.gridy = 8;
+        constraints.gridwidth = 1;
+        //constraints.weightx = 0.04;
+        constraints.weighty = 1;
+        this.add(jCBExcecute, constraints);
 
         jLBlock = new JLabel("¿Proceso con bloqueo?: ");
         jLBlock.setForeground(Color.decode("#2E8B57"));
         constraints.insets = new Insets(0,0,0,0);
         constraints.gridx = 1;
-        constraints.gridy = 8;
+        constraints.gridy = 9;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
@@ -199,7 +225,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         jCBlock = new JCheckBox();
         jCBlock.setOpaque(false);
         constraints.gridx = 2;
-        constraints.gridy = 8;
+        constraints.gridy = 9;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
@@ -209,7 +235,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         jLDestroy = new JLabel("¿Destruir proceso?");
         jLDestroy.setForeground(Color.decode("#2E8B57"));
         constraints.gridx = 1;
-        constraints.gridy = 9;
+        constraints.gridy = 10;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
@@ -218,7 +244,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         jCDestroy = new JCheckBox();
         jCDestroy.setOpaque(false);
         constraints.gridx = 2;
-        constraints.gridy = 9;
+        constraints.gridy = 10;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
@@ -227,7 +253,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         jLLayoff = new JLabel("¿Suspender?");
         jLLayoff.setForeground(Color.decode("#2E8B57"));
         constraints.gridx = 1;
-        constraints.gridy = 10;
+        constraints.gridy = 11;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
@@ -236,7 +262,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         jCBLayoff = new JCheckBox();
         jCBLayoff.setOpaque(false);
         constraints.gridx = 2;
-        constraints.gridy = 10;
+        constraints.gridy = 11;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
@@ -245,7 +271,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         jLConnectProcess = new JLabel("¿Se conecta el proceso?");
         jLConnectProcess.setForeground(Color.decode("#2E8B57"));
         constraints.gridx = 1;
-        constraints.gridy = 11;
+        constraints.gridy = 12;
         constraints.gridwidth = 1;
         constraints.gridheight = 2;
         //constraints.weightx = 0.04;
@@ -258,7 +284,7 @@ public class JPanelWest extends JPanel implements ActionListener{
     	jCBConnectProcess.setActionCommand(Events.CONNECT_PROCESS.toString());
     	jCBConnectProcess.addActionListener(this);
     	constraints.gridx = 2;
-        constraints.gridy = 11;
+        constraints.gridy = 12;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
@@ -269,7 +295,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         jTFConnectProcess.setEnabled(false);
         jTFConnectProcess.setBackground(Color.LIGHT_GRAY);
         constraints.gridx = 2;
-        constraints.gridy = 12;
+        constraints.gridy = 13;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
@@ -279,7 +305,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         jBCancel.addActionListener(actionListener);
         jBCancel.setActionCommand(Events.CLEAR.toString());
         constraints.gridx = 1;
-        constraints.gridy = 13;
+        constraints.gridy = 14;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty=1;
@@ -292,7 +318,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         jBAdd.setActionCommand(Events.ADD.toString());
         //constraints.insets = new Insets(10,80,200,80);
         constraints.gridx = 2;
-        constraints.gridy = 13;
+        constraints.gridy = 14;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
@@ -306,7 +332,7 @@ public class JPanelWest extends JPanel implements ActionListener{
         jBStart.setBorder(BorderFactory.createEmptyBorder());
         constraints.insets = new Insets(10,40,10,40);
         constraints.gridx = 1;
-        constraints.gridy = 14;
+        constraints.gridy = 15;
         constraints.gridwidth = 2;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
@@ -314,11 +340,22 @@ public class JPanelWest extends JPanel implements ActionListener{
     }
 
     public void cleanAll(){
-        jTFName.setText("");
-        jSTime.setText("");
+    	jCBConnectProcess.setSelected(false);
+    	jCBExcecute.setSelected(false);
+    	jCBLayoff.setSelected(false);
+    	jCBlock.setSelected(false);
+    	jCBNewPriority.setSelected(false);
+    	jCDestroy.setSelected(false);
+    	jTFName.setText("");
+    	jSTime.setText("");
+    	((AbstractDocument) jSTime.getDocument()).setDocumentFilter(new CustomDocumentFilter());
         jTFConnectProcess.setText("");
         jTFNewPriority.setText("");
+        ((AbstractDocument) jTFNewPriority.getDocument()).setDocumentFilter(new CustomDocumentFilter());
         jTFPriority.setText("");
+        ((AbstractDocument) jTFPriority.getDocument()).setDocumentFilter(new CustomDocumentFilter());
+        changeStatusConnectProcess();
+        changeStatusNewPriority();
     }
 
     public String getNameProcess(){
@@ -326,7 +363,12 @@ public class JPanelWest extends JPanel implements ActionListener{
     }
 
     public int getTimeProcess(){
-        return  Integer.parseInt(jSTime.getText());
+    	if(jSTime.getText().equals("")) {
+    		return 0;
+    	}
+    	int value  = Integer.parseInt(jSTime.getText());
+    	((AbstractDocument) jSTime.getDocument()).setDocumentFilter(null);
+        return  value;
     }
 
     public boolean isBlocked(){
@@ -334,13 +376,22 @@ public class JPanelWest extends JPanel implements ActionListener{
     }
     
     public int getPriority() {
+    	if(jTFPriority.getText().equals("")) {
+    		return 0;
+    	}
+    	((AbstractDocument) jTFPriority.getDocument()).setDocumentFilter(null);
     	return Integer.parseInt(jTFPriority.getText());
     }
     
     public int getNewPriority() {
+    	((AbstractDocument) jTFNewPriority.getDocument()).setDocumentFilter(null);
     	if(!jCBNewPriority.isSelected()) {
-    		return Integer.parseInt(jTFPriority.getText());
+    		
+    		return getPriority();
     	}else {
+    		if(jTFNewPriority.getText().equals("")) {
+        		return Integer.parseInt(jTFPriority.getText());
+        	}
     		return Integer.parseInt(jTFNewPriority.getText());
     	}
     }
@@ -358,6 +409,14 @@ public class JPanelWest extends JPanel implements ActionListener{
     		return "No";
     	}else {
     		return jTFConnectProcess.getText();
+    	}
+    }
+    
+    public boolean isExecute() {
+    	if(jCBExcecute.isSelected()) {
+    		return true;
+    	}else {
+    		return false;
     	}
     }
     

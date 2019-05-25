@@ -122,6 +122,10 @@ public class JFMainWindow extends JFrame {
     public String isConnect() {
     	return jPanelWest.isConnect();
     }
+    
+    public boolean isExcecute() {
+    	return jPanelWest.isExecute();
+    }
 
 	public void addProcessInTable(Process process){
 		jPanelEast.addProcess(process,controller);

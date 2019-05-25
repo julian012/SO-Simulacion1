@@ -74,6 +74,7 @@ public class Controller implements ActionListener {
 		boolean isDestroy = mainWindow.isDestroy();//Destruido
 		boolean isLayoff = mainWindow.isLayoff();//Suspendido
 		String connectProcess = mainWindow.isConnect();	//Conectado
+		boolean isExecute = mainWindow.isExcecute();
 		if(time <= 0){
 			showMessage("El tiempo del proceso debe ser mayor a 0","Error");
 		}
@@ -82,7 +83,7 @@ public class Controller implements ActionListener {
 		}
 		if(time > 0 && name.length() > 0){
 			if(Utilities.exist(name, manager.getProcessList())) {
-				Process process = manager.addProcess(priority, newPriority,name,time,blocked, isDestroy, isLayoff, connectProcess);
+				Process process = manager.addProcess(priority, newPriority,name,time,isExecute,blocked, isDestroy, isLayoff, connectProcess);
 				mainWindow.addProcessInTable(process);
 			}else {
 				showMessage("Proceso con ese nombre ya existe en la lista", "Error");

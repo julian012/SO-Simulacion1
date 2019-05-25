@@ -8,23 +8,35 @@ public class Process {
 	private int newProcessPriority;
 	private String processName;
 	private int processTime;
+	private boolean isExcecute;
 	private boolean processBlock;
 	private boolean processDestroy;
 	private boolean processLayoff;
 	private String connectProcess;
 	
-	public Process(int processPriority, int newProcessPriority, String processName, int processTime,
+	public Process(int processPriority, int newProcessPriority, String processName, int processTime, boolean isExcecute,
 			boolean processBlock, boolean processDestroy, boolean processLayoff, String connectProcess) {
 		super();
 		this.processPriority = processPriority;
 		this.newProcessPriority = newProcessPriority;
 		this.processName = processName;
 		this.processTime = processTime;
+		this.isExcecute = isExcecute;
 		this.processBlock = processBlock;
 		this.processDestroy = processDestroy;
 		this.processLayoff = processLayoff;
 		this.connectProcess = connectProcess;
 	}
+	
+	public boolean isExcecute() {
+		return isExcecute;
+	}
+
+	public void setExcecute(boolean isExcecute) {
+		this.isExcecute = isExcecute;
+	}
+
+
 
 	public int getNewProcessPriority() {
 		return newProcessPriority;
@@ -67,6 +79,7 @@ public class Process {
 		setProcessDestroy(process.isProcessDestroy());
 		setProcessLayoff(process.isProcessLayoff());
 		setConnectProcess(process.getConnectProcess());
+		setExcecute(process.isExcecute());
 	}
 	
 	public Process() {};
@@ -105,7 +118,8 @@ public class Process {
 
 		
 	public Object[] toObject(){
-		return new Object[]{getProcessPriority(),Utilities.newPriority(getProcessPriority(), getNewProcessPriority()), getProcessName(), getProcessTime(), 
+		return new Object[]{getProcessPriority(),Utilities.newPriority(getProcessPriority(), getNewProcessPriority()), 
+				getProcessName(), getProcessTime(), Utilities.booleanToString(isExcecute()),
 				Utilities.booleanToString(isProcessBlock()), Utilities.booleanToString(isProcessDestroy()),
 				Utilities.booleanToString(isProcessLayoff()), getConnectProcess()};
 	}

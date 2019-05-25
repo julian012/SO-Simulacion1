@@ -61,7 +61,7 @@ public class CreatePDF {
         preface.add(new Paragraph(info.getName(), chapterFont));
         System.out.println(info.getName());
         addEmptyLine(preface, 1);
-        PdfPTable table = new PdfPTable(7);
+        PdfPTable table = new PdfPTable(8);
 
         // table.setBorderColor(BaseColor.GRAY);
         // t.setPadding(4);
@@ -77,6 +77,10 @@ public class CreatePDF {
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Tiempo"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("En ejecución"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
@@ -104,6 +108,7 @@ public class CreatePDF {
             Process process = info.getProcessList().get(i);
             table.addCell(String.valueOf(process.getNewProcessPriority()));
             table.addCell(process.getProcessName());
+            table.addCell(Utilities.booleanToString(process.isExcecute()));
             table.addCell(String.valueOf(Utilities.quitNegativeNumbers(process.getProcessTime())));
             table.addCell(Utilities.booleanToString(process.isProcessBlock()));
             table.addCell(Utilities.booleanToString(process.isProcessDestroy()));
