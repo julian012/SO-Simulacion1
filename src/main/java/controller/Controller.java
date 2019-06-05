@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.itextpdf.text.DocumentException;
+
+import models.Partition;
 import models.Process;
 import models.ProcessManager;
 import persistence.CreatePDF;
@@ -24,8 +26,9 @@ public class Controller implements ActionListener {
 		manager = new ProcessManager();
 		//manager.test();
 		mainWindow = new JFMainWindow(this);
+		mainWindow.validateComboBoxPartition();
 		mainWindow.setVisible(true);
-		test();
+		//test();
 	}
 	
 	public void test() {
@@ -37,7 +40,8 @@ public class Controller implements ActionListener {
 			manager.generateReport();
 			createPDF = new CreatePDF();
 			try {
-				createPDF.createReport(manager.setList());
+				createPDF.createReport(manager.setList(), manager.setPartitionList());
+				
 				manager.cleanProcessList();
 				continueReport();
 				
@@ -59,31 +63,31 @@ public class Controller implements ActionListener {
 			if(JOptionPane.showConfirmDialog(mainWindow, "¿Desea limpiar la lista de procesos?",
 					"Pregunta", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
 				manager.cleanlist();
-				mainWindow.clearTable();
+				mainWindow.clearTableProcess();
+				mainWindow.clearTablePartition();
 			}
 		}
 
 	}
 
 	public void addProcess(){
-		int priority = mainWindow.getPriority(); //Prioridad
-		int newPriority = mainWindow.getNewPriority(); //Nueva prioridad
 		String name = mainWindow.getNameProcess();
 		int time = mainWindow.getTimeProcess();
-		boolean blocked = mainWindow.isBlockedProcess();
-		boolean isDestroy = mainWindow.isDestroy();//Destruido
-		boolean isLayoff = mainWindow.isLayoff();//Suspendido
-		String connectProcess = mainWindow.isConnect();	//Conectado
-		boolean isExecute = mainWindow.isExcecute();
+		int size = mainWindow.getSizeProcess();
+		String partition = mainWindow.getSelectedPartition();
+		
 		if(time <= 0){
 			showMessage("El tiempo del proceso debe ser mayor a 0","Error");
 		}
 		if(name.length() == 0){
 			showMessage("Debe ingresar un nombre en el proceso","Error");
 		}
-		if(time > 0 && name.length() > 0){
+		if(size <= 0) {
+			showMessage("El tamaño del proceso debe ser mayor a 0","Error");
+		}
+		if(time > 0 && name.length() > 0 && size > 0){
 			if(Utilities.exist(name, manager.getProcessList())) {
-				Process process = manager.addProcess(priority, newPriority,name,time,isExecute,blocked, isDestroy, isLayoff, connectProcess);
+				Process process = manager.addProcess(name,time,size, partition);
 				mainWindow.addProcessInTable(process);
 			}else {
 				showMessage("Proceso con ese nombre ya existe en la lista", "Error");
@@ -91,6 +95,27 @@ public class Controller implements ActionListener {
 			
 		}
 
+	}
+	
+	public void addPartition() {
+		String name = mainWindow.getPartitionName();
+		int size = mainWindow.getPartitionSize();
+		
+		if(size <= 0){
+			showMessage("El Tamaño de la partición debe ser mayor a 0","Error");
+		}
+		if(name.length() == 0){
+			showMessage("Debe ingresar un nombre en la partición","Error");
+		}
+		if(size > 0 && name.length() > 0){
+			if(Utilities.existPartition(name, manager.getPartititonList())) {
+				Partition partition = manager.addPartition(name, size);
+				mainWindow.addPartitionInTable(partition);
+			}else {
+				showMessage("Partición con ese nombre ya existe en la lista", "Error");
+			}
+			
+		}
 	}
 
 	public void showMessage(String message, String error){
@@ -108,8 +133,12 @@ public class Controller implements ActionListener {
 	
 	public void loadProcessInTable() {
 		ArrayList<Process> list = manager.getProcessList();
+		ArrayList<Partition> listp = manager.getPartititonList();
 		for (Process process : list) {
 			mainWindow.addProcessInTable(process);
+		}
+		for(Partition partition : listp) {
+			mainWindow.addPartitionInTable(partition);
 		}
 	}
 
@@ -118,12 +147,12 @@ public class Controller implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 			switch (Events.valueOf(e.getActionCommand())){
-			case ADD:
+			case ADD_PROCESS:
 				addProcess();
-				mainWindow.cleanForm();
+				mainWindow.cleanProcessForm();
 				break;
 			case CLEAR:
-				mainWindow.cleanForm();
+				//mainWindow.cleanForm();
 				break;
 			case START:
 				createReport();
@@ -133,6 +162,10 @@ public class Controller implements ActionListener {
 				break;
 			case MINIMIZE:
 				mainWindow.minimize();
+				break;
+			case ADD_PARTITION:
+				addPartition();
+				mainWindow.cleanPartitionForm();
 				break;
 			}
 		

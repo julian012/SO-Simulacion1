@@ -14,13 +14,6 @@ public class JPanelWest extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private JLabel jLTitle;
 //	private String connectProcess;
-	private JLabel jLPriority;
-	private JTextField jTFPriority;
-	
-
-	private JLabel jLNewPriority;
-	private JCheckBox jCBNewPriority;
-	private JTextField jTFNewPriority;
 	
     private JLabel jLName;
     private JTextField jTFName;
@@ -28,21 +21,22 @@ public class JPanelWest extends JPanel implements ActionListener{
     private JLabel jLTime;
     private JTextField jSTime;
     
-    private JLabel jLExcecute;
-    private JCheckBox jCBExcecute;
+    private JLabel jLSize;
+    private JTextField jTFSize;
     
-    private JLabel jLBlock;
-    private JCheckBox jCBlock;
+    private JLabel jLSelectPartition;
+    private JComboBox<String> jCBPartition;
     
-    private JLabel jLDestroy;
-    private JCheckBox jCDestroy;
+    private JButton jBSaveProcess;    
+    private JButton jBCleanProcessForm;
     
-    private JLabel jLLayoff;
-    private JCheckBox jCBLayoff;
+    private JLabel jLTitlePartition;
     
-    private JLabel jLConnectProcess;
-	private JCheckBox jCBConnectProcess;
-	private JTextField jTFConnectProcess;
+    private JLabel jLPartitionName;
+    private JTextField jTFPartitionName;
+    
+    private JLabel jLPartitionSize;
+    private JTextField jTFPartitionSize;
     
     private JButton jBClose;
     private JButton jBMinimize;
@@ -62,28 +56,6 @@ public class JPanelWest extends JPanel implements ActionListener{
         this.setVisible(true);
     }
     
-    public void createTimeProcess() {
-    	 jLPriority = new JLabel("Establecer prioridad");
-         jLPriority.setForeground(Color.decode("#2E8B57"));
-         constraints.gridx = 1;
-         constraints.gridy = 4;
-         constraints.gridwidth = 1;
-         constraints.weightx = 0.5;
-         constraints.weighty = 0.01;
-         this.add(jLPriority, constraints);
-         
-         jTFPriority = new JTextField();
-     	jTFPriority.setPreferredSize(new Dimension(200,60));
-     	 ((AbstractDocument) jTFPriority.getDocument()).setDocumentFilter(new CustomDocumentFilter());
-         constraints.insets = new Insets(5,5,5,5);
-         constraints.gridx = 2;
-         constraints.gridy = 4;
-         constraints.gridwidth = 1;
-         //constraints.weightx = 0.04;
-         constraints.weighty = 0.01;
-         this.add(jTFPriority, constraints);
-    }
-
     public void initComponents(){
     	
     	jBClose = new JButton("Cerrar Ventana");
@@ -135,48 +107,11 @@ public class JPanelWest extends JPanel implements ActionListener{
         constraints.weighty = 0.01;
         this.add(jTFName, constraints);
         
-        createTimeProcess();
-        
-    	jLNewPriority = new JLabel("¿Nueva prioridad?");
-    	jLNewPriority.setForeground(Color.decode("#2E8B57"));
-        constraints.gridx = 1;
-        constraints.gridy = 5;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 2;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.01;
-        this.add(jLNewPriority, constraints);
-        
-        jCBNewPriority = new JCheckBox();
-        jCBNewPriority.setOpaque(false);
-        jCBNewPriority.addActionListener(this);
-        jCBNewPriority.setActionCommand(Events.NEW_PRIORITY.toString());
-        constraints.gridx = 2;
-        constraints.gridy = 5;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.01;
-        this.add(jCBNewPriority, constraints);
-        
-        jTFNewPriority = new JTextField();
-        jTFNewPriority.setEnabled(false);
-        jTFNewPriority.setBackground(Color.LIGHT_GRAY);
-        jTFNewPriority.setPreferredSize(new Dimension(200,60));
-        ((AbstractDocument) jTFNewPriority.getDocument()).setDocumentFilter(new CustomDocumentFilter());
-        constraints.insets = new Insets(5,5,5,5);
-        constraints.gridx = 2;
-        constraints.gridy = 6;
-        constraints.gridwidth = 1;
-        //constraints.weightx = 0.04;
-        constraints.weighty = 0.01;
-        this.add(jTFNewPriority, constraints);
-
         jLTime = new JLabel("Tiempo del proceso: ");
         jLTime.setForeground(Color.decode("#2E8B57"));
         constraints.insets = new Insets(0,0,0,0);
         constraints.gridx = 1;
-        constraints.gridy = 7;
+        constraints.gridy = 4;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 0.1;
@@ -187,142 +122,181 @@ public class JPanelWest extends JPanel implements ActionListener{
         ((AbstractDocument) jSTime.getDocument()).setDocumentFilter(new CustomDocumentFilter());
         constraints.insets = new Insets(5,5,5,5);
         constraints.gridx = 2;
-        constraints.gridy = 7;
+        constraints.gridy = 4;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 0.1;
         this.add(jSTime, constraints);
         
-        jLExcecute = new JLabel("¿Se ejecuta?");
-        jLExcecute.setForeground(Color.decode("#2E8B57"));
+        jLSize = new JLabel("Tamaño");
+        jLSize.setForeground(Color.decode("#2E8B57"));
         constraints.insets = new Insets(0,0,0,0);
         constraints.gridx = 1;
-        constraints.gridy = 8;
+        constraints.gridy = 5;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 0.1;
-        this.add(jLExcecute, constraints);
+        this.add(jLSize, constraints);
         
-        jCBExcecute = new JCheckBox();
-        jCBExcecute.setOpaque(false);
+        jTFSize = new JTextField();
+        jTFSize.setPreferredSize(new Dimension(200,60));
+        ((AbstractDocument) jTFSize.getDocument()).setDocumentFilter(new CustomDocumentFilter());
+        constraints.insets = new Insets(5,5,5,5);
         constraints.gridx = 2;
-        constraints.gridy = 8;
+        constraints.gridy = 5;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
-        this.add(jCBExcecute, constraints);
-
-        jLBlock = new JLabel("¿Proceso con bloqueo?: ");
-        jLBlock.setForeground(Color.decode("#2E8B57"));
+        this.add(jTFSize, constraints);
+        
+        jLSelectPartition = new JLabel("Seleccionar Partición");
+        jLSelectPartition.setForeground(Color.decode("#2E8B57"));
+        constraints.gridx = 1;
+        constraints.gridy = 6;
+        constraints.gridwidth = 1;
+        //constraints.weightx = 0.04;
+        constraints.weighty = 1;
+        this.add(jLSelectPartition, constraints);
+        
+        jCBPartition = new JComboBox<String>();
+        constraints.gridx = 2;
+        constraints.gridy = 6;
+        constraints.gridwidth = 1;
+        //constraints.weightx = 0.04;
+        constraints.weighty = 1;
+        this.add(jCBPartition, constraints);
+        
+        jBSaveProcess = new JButton("Agregar Proceso");
+        jBSaveProcess.addActionListener(actionListener);
+        jBSaveProcess.setActionCommand(Events.ADD_PROCESS.toString());
+        constraints.insets = new Insets(0,0,0,0);
+        constraints.gridx = 1;
+        constraints.gridy = 7;
+        constraints.gridwidth = 1;
+        //constraints.weightx = 0.04;
+        constraints.weighty = 0.1;
+        this.add(jBSaveProcess, constraints);
+        
+        jBCleanProcessForm = new JButton("Limpiar Formulario");
+        jBCleanProcessForm.addActionListener(this);
+        jBCleanProcessForm.setActionCommand(Events.CLEAR_PROCESS_FORM.toString());
+        constraints.insets = new Insets(0,0,0,0);
+        constraints.gridx = 2;
+        constraints.gridy = 7;
+        constraints.gridwidth = 1;
+        //constraints.weightx = 0.04;
+        constraints.weighty = 0.1;
+        this.add(jBCleanProcessForm, constraints);
+        
+        /*
+         * Aca iria el de agregar a que particion corresponde
+         * */
+        
+        jLTitlePartition = new JLabel("Agregar Partición", JLabel.CENTER);
+        jLTitlePartition.setFont(new Font("Helvetiva", Font.PLAIN,30));
+        jLTitlePartition.setForeground(Color.decode("#407DA7"));
+        jLTitlePartition.setPreferredSize(new Dimension(450,100));
+        constraints.gridx = 1;
+        constraints.gridy = 8;
+        constraints.gridwidth = 2;
+        constraints.weighty = 0.3;
+        this.add(jLTitlePartition, constraints);
+        
+        jLPartitionName = new JLabel("Nombre de la Partición");
+        jLPartitionName.setForeground(Color.decode("#407DA7"));
         constraints.insets = new Insets(0,0,0,0);
         constraints.gridx = 1;
         constraints.gridy = 9;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
-        constraints.weighty = 1;
-        this.add(jLBlock, constraints);
-
-        jCBlock = new JCheckBox();
-        jCBlock.setOpaque(false);
+        constraints.weighty = 0.1;
+        this.add(jLPartitionName, constraints);
+        
+        jTFPartitionName = new JTextField();
+        jTFPartitionName.setPreferredSize(new Dimension(200,60));
+        //constraints.insets = new Insets(5,5,5,5);
         constraints.gridx = 2;
         constraints.gridy = 9;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
-        constraints.weighty = 1;
-        this.add(jCBlock, constraints);
-        
-        
-        jLDestroy = new JLabel("¿Destruir proceso?");
-        jLDestroy.setForeground(Color.decode("#2E8B57"));
+        constraints.weighty = 0.01;
+        this.add(jTFPartitionName, constraints);
+
+        jLPartitionSize = new JLabel("Tamaño de la partición");
+        jLPartitionSize.setForeground(Color.decode("#407DA7"));
+        constraints.insets = new Insets(0,0,0,0);
         constraints.gridx = 1;
         constraints.gridy = 10;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
-        this.add(jLDestroy, constraints);
-        
-        jCDestroy = new JCheckBox();
-        jCDestroy.setOpaque(false);
+        this.add(jLPartitionSize, constraints);
+
+        jTFPartitionSize = new JTextField();
+        jTFPartitionSize.setPreferredSize(new Dimension(200,60));
+        ((AbstractDocument) jTFPartitionSize.getDocument()).setDocumentFilter(new CustomDocumentFilter());
+        //constraints.insets = new Insets(5,5,5,5);
         constraints.gridx = 2;
         constraints.gridy = 10;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
-        this.add(jCDestroy, constraints);
+        this.add(jTFPartitionSize, constraints);
         
-        jLLayoff = new JLabel("¿Suspender?");
-        jLLayoff.setForeground(Color.decode("#2E8B57"));
         constraints.gridx = 1;
         constraints.gridy = 11;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
-        this.add(jLLayoff, constraints);
         
-        jCBLayoff = new JCheckBox();
-        jCBLayoff.setOpaque(false);
         constraints.gridx = 2;
         constraints.gridy = 11;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
-        this.add(jCBLayoff, constraints);
         
-        jLConnectProcess = new JLabel("¿Se conecta el proceso?");
-        jLConnectProcess.setForeground(Color.decode("#2E8B57"));
         constraints.gridx = 1;
         constraints.gridy = 12;
         constraints.gridwidth = 1;
         constraints.gridheight = 2;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
-        this.add(jLConnectProcess, constraints);
         
-    	jCBConnectProcess = new JCheckBox();
-    	jCBConnectProcess.setOpaque(false);
-    	jCBConnectProcess.setSelected(false);
-    	jCBConnectProcess.setActionCommand(Events.CONNECT_PROCESS.toString());
-    	jCBConnectProcess.addActionListener(this);
     	constraints.gridx = 2;
         constraints.gridy = 12;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
         constraints.gridheight = 1;
-        this.add(jCBConnectProcess, constraints);
         
-        jTFConnectProcess = new JTextField();
-        jTFConnectProcess.setEnabled(false);
-        jTFConnectProcess.setBackground(Color.LIGHT_GRAY);
         constraints.gridx = 2;
         constraints.gridy = 13;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
-        this.add(jTFConnectProcess, constraints);
         
-        jBCancel = new JButton("Limpiar");
-        jBCancel.addActionListener(actionListener);
-        jBCancel.setActionCommand(Events.CLEAR.toString());
+        jBAdd = new JButton("Agregar Partición");
+        jBAdd.addActionListener(actionListener);
+        jBAdd.setActionCommand(Events.ADD_PARTITION.toString());
         constraints.gridx = 1;
         constraints.gridy = 14;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty=1;
         constraints.weighty = 1;
-        constraints.insets = new Insets(5,5,0,5);
-        this.add(jBCancel, constraints);
+       // constraints.insets = new Insets(5,5,0,5);
+        this.add(jBAdd, constraints);
         
-        jBAdd = new JButton("Agregar");
-        jBAdd.addActionListener(actionListener);
-        jBAdd.setActionCommand(Events.ADD.toString());
+        jBCancel = new JButton("Limpiar Formulario");
+        jBCancel.addActionListener(this);
+        jBCancel.setActionCommand(Events.CLEAR_PARTITION_FORM.toString());
         //constraints.insets = new Insets(10,80,200,80);
         constraints.gridx = 2;
         constraints.gridy = 14;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
-        this.add(jBAdd, constraints);
+        this.add(jBCancel, constraints);
 
         jBStart = new JButton("Realizar Simulación");
         jBStart.setForeground(Color.WHITE);
@@ -339,23 +313,25 @@ public class JPanelWest extends JPanel implements ActionListener{
         this.add(jBStart, constraints);
     }
 
-    public void cleanAll(){
-    	jCBConnectProcess.setSelected(false);
-    	jCBExcecute.setSelected(false);
-    	jCBLayoff.setSelected(false);
-    	jCBlock.setSelected(false);
-    	jCBNewPriority.setSelected(false);
-    	jCDestroy.setSelected(false);
+    public void cleanProcessForm(){
     	jTFName.setText("");
+    	
+    	((AbstractDocument) jSTime.getDocument()).setDocumentFilter(null);
     	jSTime.setText("");
     	((AbstractDocument) jSTime.getDocument()).setDocumentFilter(new CustomDocumentFilter());
-        jTFConnectProcess.setText("");
-        jTFNewPriority.setText("");
-        ((AbstractDocument) jTFNewPriority.getDocument()).setDocumentFilter(new CustomDocumentFilter());
-        jTFPriority.setText("");
-        ((AbstractDocument) jTFPriority.getDocument()).setDocumentFilter(new CustomDocumentFilter());
-        changeStatusConnectProcess();
-        changeStatusNewPriority();
+    	
+    	((AbstractDocument) jTFSize.getDocument()).setDocumentFilter(null);
+    	jTFSize.setText("");
+    	((AbstractDocument) jTFSize.getDocument()).setDocumentFilter(new CustomDocumentFilter());
+    	validatePartitionList();
+    }
+    
+    public void cleanPartitionForm(){
+    	jTFPartitionName.setText("");
+    	
+    	((AbstractDocument) jTFPartitionSize.getDocument()).setDocumentFilter(null);
+    	jTFPartitionSize.setText("");
+    	((AbstractDocument) jTFPartitionSize.getDocument()).setDocumentFilter(new CustomDocumentFilter());
     }
 
     public String getNameProcess(){
@@ -371,53 +347,26 @@ public class JPanelWest extends JPanel implements ActionListener{
         return  value;
     }
 
-    public boolean isBlocked(){
-        return jCBlock.isSelected();
-    }
-    
-    public int getPriority() {
-    	if(jTFPriority.getText().equals("")) {
+    public int getSizeProcess(){
+    	if(jTFSize.getText().equals("")) {
     		return 0;
     	}
-    	((AbstractDocument) jTFPriority.getDocument()).setDocumentFilter(null);
-    	return Integer.parseInt(jTFPriority.getText());
+    	int value  = Integer.parseInt(jTFSize.getText());
+    	((AbstractDocument) jTFSize.getDocument()).setDocumentFilter(null);
+        return  value;
     }
     
-    public int getNewPriority() {
-    	((AbstractDocument) jTFNewPriority.getDocument()).setDocumentFilter(null);
-    	if(!jCBNewPriority.isSelected()) {
-    		
-    		return getPriority();
-    	}else {
-    		if(jTFNewPriority.getText().equals("")) {
-        		return Integer.parseInt(jTFPriority.getText());
-        	}
-    		return Integer.parseInt(jTFNewPriority.getText());
+    public String getPartitionName() {
+    	return jTFPartitionName.getText();
+    }
+    
+    public int getPartitionSize() {
+    	if(jTFPartitionSize.getText().equals("")) {
+    		return 0;
     	}
-    }
-    
-    public boolean isDestroy() {
-    	return jCDestroy.isSelected();
-    }
-    
-    public boolean isLayoff() {
-    	return jCBLayoff.isSelected();
-    }
-    
-    public String isConnect() {
-    	if(!jCBConnectProcess.isSelected()) {
-    		return "No";
-    	}else {
-    		return jTFConnectProcess.getText();
-    	}
-    }
-    
-    public boolean isExecute() {
-    	if(jCBExcecute.isSelected()) {
-    		return true;
-    	}else {
-    		return false;
-    	}
+    	int value  = Integer.parseInt(jTFPartitionSize.getText());
+    	((AbstractDocument) jTFPartitionSize.getDocument()).setDocumentFilter(null);
+        return  value;
     }
     
     public JButton createButton() {
@@ -429,17 +378,24 @@ public class JPanelWest extends JPanel implements ActionListener{
     	return button;
     }
     
-    public void changeStatusConnectProcess() {
-    	if(jCBConnectProcess.isSelected()) {
-    		jTFConnectProcess.setEnabled(true);
-    		jTFConnectProcess.setBackground(Color.white);
-    	}else {
-    		jTFConnectProcess.setEnabled(false);
-    		jTFConnectProcess.setBackground(Color.LIGHT_GRAY);
-    	}
+    public void loadPartitions(String value) {
+    	jCBPartition.addItem(value);
     }
     
-    public void changeStatusNewPriority() {
+    public void validatePartitionList() {
+    	if (jCBPartition.getItemCount() > 0) {
+			jBSaveProcess.setEnabled(true);
+		}else {
+			jBSaveProcess.setEnabled(false);
+		}
+    }
+    
+    public String getSelectedPartition() {
+    	return jCBPartition.getItemAt(jCBPartition.getSelectedIndex());
+    }
+    
+    
+   /* public void changeStatusNewPriority() {
     	if(jCBNewPriority.isSelected()) {
     		jTFNewPriority.setEnabled(true);
     		jTFNewPriority.setBackground(Color.white);
@@ -447,16 +403,16 @@ public class JPanelWest extends JPanel implements ActionListener{
     		jTFNewPriority.setEnabled(false);
     		jTFNewPriority.setBackground(Color.LIGHT_GRAY);
     	}
-    }
+    }*/
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (Events.valueOf(e.getActionCommand())) {
-		case CONNECT_PROCESS:
-			changeStatusConnectProcess();
+		case CLEAR_PROCESS_FORM:
+			cleanProcessForm();
 			break;
-		case NEW_PRIORITY:
-			changeStatusNewPriority();
+		case CLEAR_PARTITION_FORM:
+			cleanPartitionForm();
 			break;
 		default:
 			break;

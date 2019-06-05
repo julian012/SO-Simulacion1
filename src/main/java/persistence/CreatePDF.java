@@ -5,6 +5,9 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import models.Partition;
+import models.PartitionInfo;
 import models.Process;
 import models.ProcessInfo;
 import utilities.Utilities;
@@ -48,11 +51,53 @@ public class CreatePDF {
         //document.newPage();
     }
 
-    private static void addContent(Document document, ArrayList<ProcessInfo> list) throws DocumentException {
+    private static void addContent(Document document, ArrayList<ProcessInfo> list, ArrayList<PartitionInfo> partitionList) throws DocumentException {
        // add a table
         for (int i = 0; i< list.size() ; i++){
             createTable(document,list.get(i));
         }
+        for (int  i = 0; i < partitionList.size(); i++) {
+        	createTablePartition(document, partitionList.get(i));
+        }
+        
+    }
+    
+    private static void createTablePartition(Document document, PartitionInfo info) throws DocumentException{
+        Paragraph preface = new Paragraph();
+        addEmptyLine(preface,1);
+        preface.add(new Paragraph(info.getName(), chapterFont));
+        addEmptyLine(preface, 1);
+        PdfPTable table = new PdfPTable(3);
+
+        // table.setBorderColor(BaseColor.GRAY);
+        // t.setPadding(4);
+        // t.setSpacing(4);
+        // t.setBorderWidth(1);
+
+        PdfPCell c1 = new PdfPCell(new Phrase("No"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Nombre"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Tamaño"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        table.setHeaderRows(1);
+
+        for (int i = 0; i< info.getPartitionList().size(); i++){
+            Partition process = info.getPartitionList().get(i);
+            table.addCell(String.valueOf(i + 1));
+            table.addCell(process.getPartitionName());
+            table.addCell(String.valueOf(process.getSize()));
+        }
+        preface.add(table);
+        document.add(preface);
+
+
     }
 
     private static void createTable(Document document, ProcessInfo info) throws DocumentException{
@@ -61,59 +106,42 @@ public class CreatePDF {
         preface.add(new Paragraph(info.getName(), chapterFont));
         System.out.println(info.getName());
         addEmptyLine(preface, 1);
-        PdfPTable table = new PdfPTable(8);
+        PdfPTable table = new PdfPTable(5);
 
         // table.setBorderColor(BaseColor.GRAY);
         // t.setPadding(4);
         // t.setSpacing(4);
         // t.setBorderWidth(1);
 
-        PdfPCell c1 = new PdfPCell(new Phrase("Prioridad"));
+        PdfPCell c1 = new PdfPCell(new Phrase("No"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Nombre procesador"));
+        
+        c1 = new PdfPCell(new Phrase("Nombre"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
         c1 = new PdfPCell(new Phrase("Tiempo"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Tamaño"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
         
-        c1 = new PdfPCell(new Phrase("En ejecución"));
+        c1 = new PdfPCell(new Phrase("Nombre Particion"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Bloqueado"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-        table.setHeaderRows(1);
-        
-        c1 = new PdfPCell(new Phrase("Destruir"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-        table.setHeaderRows(1);
-        
-        c1 = new PdfPCell(new Phrase("Suspender"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-        table.setHeaderRows(1);
-        
-        c1 = new PdfPCell(new Phrase("Comunicar"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
         table.setHeaderRows(1);
 
         for (int i = 0; i< info.getProcessList().size(); i++){
             Process process = info.getProcessList().get(i);
-            table.addCell(String.valueOf(process.getNewProcessPriority()));
+            table.addCell(String.valueOf(i + 1));
             table.addCell(process.getProcessName());
-            table.addCell(Utilities.booleanToString(process.isExcecute()));
             table.addCell(String.valueOf(Utilities.quitNegativeNumbers(process.getProcessTime())));
-            table.addCell(Utilities.booleanToString(process.isProcessBlock()));
-            table.addCell(Utilities.booleanToString(process.isProcessDestroy()));
-            table.addCell(Utilities.booleanToString(process.isProcessLayoff()));
-            table.addCell(process.getConnectProcess());
+            table.addCell(process.getProcessSize() + "");
+            table.addCell(process.getPartitionName());
         }
         preface.add(table);
         document.add(preface);
@@ -128,14 +156,14 @@ public class CreatePDF {
         }
     }
 
-    public void createReport(ArrayList<ProcessInfo> list) throws DocumentException, IOException {
+    public void createReport(ArrayList<ProcessInfo> list, ArrayList<PartitionInfo> partitionList) throws DocumentException, IOException {
             Document document = new Document(PageSize.A4.rotate());
             FileOutputStream pdf = new FileOutputStream(FILE);
             PdfWriter.getInstance(document,pdf);
             document.open();
             addMetaData(document);
             addTitlePage(document);
-            addContent(document, list);
+            addContent(document, list, partitionList);
             document.close();
             File f = new File(FILE);
             Desktop.getDesktop().open(f);

@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import controller.Controller;
+import models.Partition;
 import models.Process;
 
 import java.awt.*;
@@ -37,7 +38,8 @@ public class JFMainWindow extends JFrame {
 		setLayout(new BorderLayout());
 		initComponents(controller);
 		addWindowsListenerOption();
-		cleanForm();
+		cleanPartitionForm();
+		cleanProcessForm();
 	}
 	
 	public void initImages() {
@@ -86,8 +88,12 @@ public class JFMainWindow extends JFrame {
 		//UIManager.put("Button.border", BorderFactory.createEmptyBorder());
 	}
 
-	public void cleanForm(){
-		jPanelWest.cleanAll();
+	public void cleanProcessForm(){
+		jPanelWest.cleanProcessForm();
+	}
+	
+	public void cleanPartitionForm() {
+		jPanelWest.cleanPartitionForm();
 	}
 
 	public String getNameProcess(){
@@ -98,41 +104,43 @@ public class JFMainWindow extends JFrame {
 		return jPanelWest.getTimeProcess();
 	}
 
-	public boolean isBlockedProcess(){
-		return jPanelWest.isBlocked();
+	public int getSizeProcess(){
+		return jPanelWest.getSizeProcess();
 	}
 	
 
-    public int getPriority() {
-    	return jPanelWest.getPriority();
+    public String getPartitionName() {
+    	return jPanelWest.getPartitionName();
     }
     
-    public int getNewPriority() {
-    	return jPanelWest.getNewPriority();
+    public int getPartitionSize() {
+    	return jPanelWest.getPartitionSize();
     }
     
-    public boolean isDestroy() {
-    	return jPanelWest.isDestroy();
-    }
-    
-    public boolean isLayoff() {
-    	return jPanelWest.isLayoff();
-    }
-    
-    public String isConnect() {
-    	return jPanelWest.isConnect();
-    }
-    
-    public boolean isExcecute() {
-    	return jPanelWest.isExecute();
-    }
-
 	public void addProcessInTable(Process process){
 		jPanelEast.addProcess(process,controller);
 	}
+	
+	public void addPartitionInTable(Partition partition) {
+		jPanelWest.loadPartitions(partition.getPartitionName());
+		jPanelEast.addPartition(partition, controller);
+		jPanelWest.validatePartitionList();
+	}
+	
+	public void validateComboBoxPartition() {
+		jPanelWest.validatePartitionList();
+	}
 
-	public void clearTable(){
-		jPanelEast.cleanTable();
+	public void clearTableProcess(){
+		jPanelEast.cleanTableProcess();
+	}
+	
+	public void clearTablePartition(){
+		jPanelEast.cleanTablePartition();
+	}
+	
+	public String getSelectedPartition() {
+		return jPanelWest.getSelectedPartition();
 	}
 	
 	

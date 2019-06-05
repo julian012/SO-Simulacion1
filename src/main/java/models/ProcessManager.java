@@ -1,8 +1,7 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-
+import java.util.Collections;
 import utilities.Utilities;
 
 public class ProcessManager {
@@ -13,74 +12,67 @@ public class ProcessManager {
 	private ArrayList<Process> processList;
 	private ArrayList<Process> readyList; //Cola de Listos
 	private ArrayList<Process> executionList; //Cola de Ejecución
-	private ArrayList<Process> blockList; //Cola de Bloqueo
-	private ArrayList<Process> wakeList; //Cola de Despertar
 	private ArrayList<Process> packoffList; //Cola de Despacho
-	private ArrayList<Process> expireList; //Cola de Expiración de Tiempo
-	private ArrayList<Process> blockedList; //Cola de Bloqueado
 	private ArrayList<Process> exitList; //Cola de Salida
-	private ArrayList<Process> destroyProcess; //Cola de procesos destruidos
-	private ArrayList<Process> layokffProcess; //Cola de supender
-	private ArrayList<Process> resumeProcess; //Cola de renaudar
-	private ArrayList<Process> connectProcess; //Cola de procesos que se comunican
+	private ArrayList<Partition> partitionList; //Lista de particiones;
+	private ArrayList<Process> fireList; //Lista de procesos que no se ejecutaron
+	private ArrayList<Process> expiredList; //Lista de expirados
 	private ArrayList<ProcessInfo> info;
+	private ArrayList<PartitionInfo> infoPartitions;
 	
 	public ProcessManager() {
 		processList = new ArrayList<Process>();
-		destroyProcess = new ArrayList<Process>();
 		readyList = new ArrayList<Process>();
 		executionList = new ArrayList<Process>();
-		blockList = new ArrayList<Process>();
-		wakeList = new ArrayList<Process>();
 		packoffList = new ArrayList<Process>();
-		expireList = new ArrayList<Process>();
-		blockedList = new ArrayList<Process>();
 		exitList = new ArrayList<Process>();
-		connectProcess = new ArrayList<Process>();
-		layokffProcess = new ArrayList<Process>();
-		resumeProcess = new ArrayList<Process>();
+		partitionList = new ArrayList<Partition>();
+		expiredList = new ArrayList<Process>();
+		fireList = new ArrayList<Process>();
+		infoPartitions = new ArrayList<PartitionInfo>();
 		//test();
 	}
 	
 	public void test() {
-		//Prioridad//Nueva Prioridad//Nombre Proceso//Tiempo proceso
-		//Bloqueado//Destruido//Suspender
-		//Conectado
-		processList.add(new Process(3, 3, "P10", 8, false,false, true, false, "No"));//P10
-		processList.add(new Process(2, 2, "P20", 9, true,true, false, true, "No"));//P20
-		processList.add(new Process(6, 6, "P30", 7, true,false, false, false, "No"));//P30
-		processList.add(new Process(4, 4, "P40", 5, false,false, true, false, "No"));//P40
-		processList.add(new Process(7, 7, "P50", 11, true,false, false, false, "YES"));//P50
-		processList.add(new Process(5, 5, "P60", 13, true,false, false, false, "No"));//P60
-		processList.add(new Process(8, 1, "P70", 18, true,false, false, false, "No"));//P70
-		processList.add(new Process(9, 9, "P80", 14, true,false, false, false, "No"));//P80
-		processList.add(new Process(10, 10, "P90", 13, true,true, true, true, "No"));//P90
+		partitionList.add(new Partition("Uno", 10));
+		partitionList.add(new Partition("Dos", 20));
+		partitionList.add(new Partition("Tres", 15));
+		processList.add(new Process("P1", 10, 5, "Uno"));
+		processList.add(new Process("P2", 10, 7, "Dos"));
+		processList.add(new Process("P3", 15, 8, "Dos"));
+		processList.add(new Process("P4", 8, 20, "Tres"));
+		processList.add(new Process("P5", 12, 30, "Uno"));	
+
 	}
 
 	public ArrayList<ProcessInfo> setList(){
 		info = new ArrayList<ProcessInfo>();
 		info.add(new ProcessInfo("Cola de Procesos",processList));
 		info.add(new ProcessInfo("Cola de Listos", readyList));
-		info.add(new ProcessInfo("Cola de Ejecucion", executionList));
-		info.add(new ProcessInfo("Cola de Bloqueo", blockList));
-		info.add(new ProcessInfo("Cola destruidos", destroyProcess));
-		info.add(new ProcessInfo("Cola de Despertar", wakeList));
 		info.add(new ProcessInfo("Cola de Despacho", packoffList));
-		info.add(new ProcessInfo("Cola de Expiracion de Tiempo", expireList));
-		info.add(new ProcessInfo("Cola de Bloqueado", blockedList));
-		info.add(new ProcessInfo("Cola de Suspendido", layokffProcess));
-		info.add(new ProcessInfo("Cola de Reanudados", resumeProcess));
+		info.add(new ProcessInfo("Cola de Ejecucion", executionList));
 		info.add(new ProcessInfo("Cola de Salida", exitList));
-		info.add(new ProcessInfo("Cola comunicados", connectProcess));
+		info.add(new ProcessInfo("Procesos no ejecutados", fireList));
 		return info;
 	}
+	
+	public ArrayList<PartitionInfo> setPartitionList(){
+		infoPartitions = new ArrayList<PartitionInfo>();
+		infoPartitions.add(new PartitionInfo("Lista de particiones", partitionList));
+		infoPartitions.add(new PartitionInfo("Orden de Salida por particiones", getPartitionOrder()));
+		return infoPartitions;
+	}
 
-	public Process addProcess(int processPriority, int newProcessPriority, String processName, int processTime,boolean isExcesute,
-			boolean processBlock, boolean processDestroy, boolean processLayoff, String connectProcess){
-		Process process = new Process(processPriority, newProcessPriority, processName, processTime, isExcesute,
-				processBlock, processDestroy, processLayoff, connectProcess);
+	public Process addProcess(String processName, int processTime, int processSize, String partitionName){
+		Process process = new Process(processName, processTime, processSize, partitionName);
 		processList.add(process);	
 		return process;
+	}
+	
+	public Partition addPartition(String name, int size) {
+		Partition partition = new Partition(name, size);
+		partitionList.add(partition);
+		return partition;
 	}
 	
 	public void generateReport() {
@@ -92,121 +84,95 @@ public class ProcessManager {
 		System.out.println("Cola de Ejecución \n\n");
 		System.out.println(executionList);
 		System.out.println("Cola de Bloqueo \n\n");
-		System.out.println(blockList);
-		System.out.println("Cola de Despertar \n\n");
-		System.out.println(wakeList);
-		System.out.println("Cola de Despacho \n\n");
-		System.out.println(packoffList);
-		System.out.println("Cola de Expiración de Tiempo \n\n");
-		System.out.println(expireList);
-		System.out.println("Cola de Bloqueado \n\n");
-		System.out.println(blockedList);
-		System.out.println("Cola de Salida \n\n");
-		System.out.println(exitList);
 	}
 
 	public ArrayList<Process> getProcessList() {
 		return processList;
+	}
+	
+	public ArrayList<Partition> getPartititonList(){
+		return partitionList;
 	}
 
 	public void setProcessList(ArrayList<Process> processList) {
 		this.processList = processList;
 	}
 	
-	/*public void excecuteProcess(Process process) {
-		readyList.add(process);
-		packoffList.add(process);
-		Process processEx = new Process(process.getProcessId(), process.getProcessName(), 
-				process.getProcessTime() - TIME_PROCESS, process.isProcessBlock());
-		executionList.add(processEx);
-		if(processEx.getProcessTime() <= 0) {
-			exitList.add(processEx);
-		}else {
-			if(processEx.isProcessBlock()) {
-				blockedList.add(processEx);
-				blockList.add(processEx);
-				wakeList.add(processEx);
+	@SuppressWarnings("unchecked")
+	public ArrayList<Partition> getPartitionOrder(){
+		ArrayList<Partition> list = new ArrayList<Partition>();
+		ArrayList<Process> arrayAux = new ArrayList<>();
+		arrayAux = (ArrayList<Process>) exitList.clone();
+		while(list.size() != partitionList.size()) {
+			System.out.println(list.size() + "  " + partitionList.size());
+			if(arrayAux.size() == 0) {
+				break;
 			}else {
-				expireList.add(processEx);
+				String partitionName = arrayAux.get(arrayAux.size() - 1).getPartitionName();
+				list.add(searchPartitionByName(partitionName));
+				removePartitionProcess(arrayAux, partitionName);
 			}
-			excecuteProcess(processEx);
 		}
-	}*/
+		Collections.reverse(list);
+		return list;
+	}
 	
-	public void destroyProcess() {
-		for(int i = 0; i < processList.size(); i++) {
-			if(processList.get(i).isProcessDestroy()) {
-				destroyProcess.add(new Process(processList.get(i)));
-				processList.remove(i);
+	public void removePartitionProcess(ArrayList<Process> aux,String partitionName) {
+		for (int i = 0; i < aux.size(); i++) {
+			if(aux.get(i).getPartitionName().equals(partitionName)) {
+				aux.remove(i);
 				i = 0;
 			}
 		}
 	}
 	
-	public void communicateProcess() {
-		for(int i = 0; i < processList.size(); i++) {
-			if(processList.get(i).getConnectProcess() != "No") {
-				connectProcess.add(new Process(processList.get(i)));
+	public Partition searchPartitionByName(String name) {
+		for(int i = 0; i < partitionList.size(); i++) {
+			if(partitionList.get(i).getPartitionName().equals(name)) {
+				return partitionList.get(i);
 			}
 		}
+		return null;
 	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public void excecuteProcess() {
-		processList.sort( new Comparator<Process>() {
-			public int compare(Process p1, Process p2) {
-				return p1.getNewProcessPriority() - p2.getNewProcessPriority();
-			}
-		});
-		communicateProcess();
-		//destroyProcess();
 		ArrayList<Process> arrayAux = new ArrayList<>();
 		arrayAux = (ArrayList<Process>) processList.clone();
-		for (int i = 0; i < arrayAux.size(); i++) {
-			Process process = new Process(arrayAux.get(i));
-			readyList.add( new Process(process));
-			if(process.isExcecute()) {
-				packoffList.add(new Process(process)); //Lista de despacho
-				process.setProcessTime(Utilities.quitNegativeNumbers(process.getProcessTime() - TIME_PROCESS));
-				executionList.add(new Process(process));
-				if(process.getProcessTime() > 0) {
-					if(process.isProcessBlock()) {
-						blockedList.add(new Process(process));
-						blockList.add(new Process(process));
-						wakeList.add(new Process(process));
-					}else {
-						expireList.add(new Process(process));
-					}
-				}
-				if(process.getProcessTime() == 0) {
-					exitList.add(new Process(process));
-				}else {
-					if(process.isProcessLayoff()) {
-						
-						layokffProcess.add(new Process(process));
-						resumeProcess.add(new Process(process));
-					}
-					if(!process.isProcessDestroy()) {
-						arrayAux.add(process);
-					}else{
-						destroyProcess.add(new Process(process));
-					}
-				}
-			}else {
-				destroyProcess.add(new Process(process));
+		//Verificar si los procesos se pueden ejecutar
+		for(int i = 0; i < arrayAux.size(); i++) {
+			if(!Utilities.evaluateProcessSize(arrayAux.get(i), partitionList)) {
+				fireList.add(arrayAux.remove(i));
+				i = 0;
 			}
 		}
+		
+		for (int i = 0; i < arrayAux.size(); i++) {
+			Process procesoAux = new Process(arrayAux.get(i));
+            readyList.add(new Process(procesoAux));
+            packoffList.add(new Process(procesoAux));
+            procesoAux.setProcessTime(Utilities.quitNegativeNumbers(procesoAux.getProcessTime() - TIME_PROCESS ));
+            executionList.add(new Process(procesoAux));
+            if (procesoAux.getProcessTime() <= 0) {
+                exitList.add(new Process(procesoAux));
+            }
+            if (procesoAux.getProcessTime() > 0) {
+            	expiredList.add(new Process(procesoAux));
+            	arrayAux.add(new Process(procesoAux));
+            }
+
+        }
+
 	}
 
 	public void cleanProcessList(){
-		readyList.clear();
-		executionList.clear(); //Cola de Ejecuci�n
-		blockList.clear(); //Cola de Bloqueo
-		wakeList.clear(); //Cola de Despertar
+		readyList.clear(); //Cola de Listos
+		executionList.clear(); //Cola de Ejecución
 		packoffList.clear(); //Cola de Despacho
-		expireList.clear(); //Cola de Expiraci�n de Tiempo
-		blockedList.clear(); //Cola de Bloqueado
 		exitList.clear(); //Cola de Salida
+		fireList.clear(); //Lista de procesos que no se ejecutaron
+		expiredList.clear(); //Lista de expirados
 	}
 
 	public void cleanlist(){
