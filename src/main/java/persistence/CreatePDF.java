@@ -67,7 +67,7 @@ public class CreatePDF {
         addEmptyLine(preface,1);
         preface.add(new Paragraph(info.getName(), chapterFont));
         addEmptyLine(preface, 1);
-        PdfPTable table = new PdfPTable(3);
+        PdfPTable table = new PdfPTable(4);
 
         // table.setBorderColor(BaseColor.GRAY);
         // t.setPadding(4);
@@ -85,14 +85,19 @@ public class CreatePDF {
         c1 = new PdfPCell(new Phrase("Tamaño"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Tiempo"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
 
         table.setHeaderRows(1);
 
         for (int i = 0; i< info.getPartitionList().size(); i++){
-            Partition process = info.getPartitionList().get(i);
+            Partition partition = info.getPartitionList().get(i);
             table.addCell(String.valueOf(i + 1));
-            table.addCell(process.getPartitionName());
-            table.addCell(String.valueOf(process.getSize()));
+            table.addCell(partition.getPartitionName());
+            table.addCell(String.valueOf(partition.getSize()));
+            table.addCell(String.valueOf(partition.getTime()));
         }
         preface.add(table);
         document.add(preface);

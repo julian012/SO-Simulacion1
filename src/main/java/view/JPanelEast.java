@@ -16,8 +16,8 @@ public class JPanelEast extends JPanel {
 	
     public JPanelEast(){
         setLayout(new BorderLayout());
-        proccessTable = new JTableCustom(Constraints.TABLE_HEADER);
-        partitionTable = new JTableCustom(Constraints.TABLE_PARTITION_HEADER);
+        proccessTable = new JTableCustom(Constraints.TABLE_HEADER, Constraints.TITLE_PROCESS);
+        partitionTable = new JTableCustom(Constraints.TABLE_PARTITION_HEADER, Constraints.TITLE_PARTITION);
         add(partitionTable, BorderLayout.SOUTH);
         add(proccessTable, BorderLayout.NORTH);
         setVisible(true);

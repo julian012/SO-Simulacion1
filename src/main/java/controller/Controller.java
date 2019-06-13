@@ -26,7 +26,7 @@ public class Controller implements ActionListener {
 		manager = new ProcessManager();
 		//manager.test();
 		mainWindow = new JFMainWindow(this);
-		mainWindow.validateComboBoxPartition();
+		//mainWindow.validateComboBoxPartition();
 		mainWindow.setVisible(true);
 		//test();
 	}
@@ -41,10 +41,8 @@ public class Controller implements ActionListener {
 			createPDF = new CreatePDF();
 			try {
 				createPDF.createReport(manager.setList(), manager.setPartitionList());
-				
 				manager.cleanProcessList();
-				continueReport();
-				
+				continueReport();				
 			} catch (DocumentException e) {
 				e.printStackTrace();
 				manager.cleanProcessList();
@@ -63,7 +61,7 @@ public class Controller implements ActionListener {
 			if(JOptionPane.showConfirmDialog(mainWindow, "¿Desea limpiar la lista de procesos?",
 					"Pregunta", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
 				manager.cleanlist();
-				mainWindow.clearTableProcess();
+				//mainWindow.clearTableProcess();
 				mainWindow.clearTablePartition();
 			}
 		}
@@ -74,7 +72,6 @@ public class Controller implements ActionListener {
 		String name = mainWindow.getNameProcess();
 		int time = mainWindow.getTimeProcess();
 		int size = mainWindow.getSizeProcess();
-		String partition = mainWindow.getSelectedPartition();
 		
 		if(time <= 0){
 			showMessage("El tiempo del proceso debe ser mayor a 0","Error");
@@ -87,7 +84,7 @@ public class Controller implements ActionListener {
 		}
 		if(time > 0 && name.length() > 0 && size > 0){
 			if(Utilities.exist(name, manager.getProcessList())) {
-				Process process = manager.addProcess(name,time,size, partition);
+				Process process = manager.addProcess(name,time,size);
 				mainWindow.addProcessInTable(process);
 			}else {
 				showMessage("Proceso con ese nombre ya existe en la lista", "Error");
@@ -112,7 +109,7 @@ public class Controller implements ActionListener {
 				Partition partition = manager.addPartition(name, size);
 				mainWindow.addPartitionInTable(partition);
 			}else {
-				showMessage("Partición con ese nombre ya existe en la lista", "Error");
+				showMessage("Partición con ese nombre, ya existe en la lista", "Error");
 			}
 			
 		}
@@ -122,14 +119,14 @@ public class Controller implements ActionListener {
 		JOptionPane.showMessageDialog(mainWindow,message, error, JOptionPane.ERROR_MESSAGE,null);
 	}
 	
-	/*public void deleteProcess(int id) {
+	public void deleteProcess(int id) {
 		if(JOptionPane.showConfirmDialog(mainWindow, "¿Segundo que desea borrar el proceso con Id: " + id +"?",
 				"Pregunta", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-			manager.deleteProcess(id);
-			mainWindow.clearTable();
+			//manager.deleteProcess(id);
+			//mainWindow.clearTable();
 			loadProcessInTable();
 		}
-	}*/
+	}
 	
 	public void loadProcessInTable() {
 		ArrayList<Process> list = manager.getProcessList();
@@ -141,6 +138,8 @@ public class Controller implements ActionListener {
 			mainWindow.addPartitionInTable(partition);
 		}
 	}
+	
+	
 
 
 

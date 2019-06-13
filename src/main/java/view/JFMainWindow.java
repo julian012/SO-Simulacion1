@@ -122,26 +122,26 @@ public class JFMainWindow extends JFrame {
 	}
 	
 	public void addPartitionInTable(Partition partition) {
-		jPanelWest.loadPartitions(partition.getPartitionName());
+//		jPanelWest.loadPartitions(partition.getPartitionName());
 		jPanelEast.addPartition(partition, controller);
-		jPanelWest.validatePartitionList();
+	//	jPanelWest.validatePartitionList();
 	}
 	
-	public void validateComboBoxPartition() {
-		jPanelWest.validatePartitionList();
-	}
-
-	public void clearTableProcess(){
-		jPanelEast.cleanTableProcess();
-	}
+//	public void validateComboBoxPartition() {
+//		jPanelWest.validatePartitionList();
+//	}
+//
+//	public void clearTableProcess(){
+//		jPanelEast.cleanTableProcess();
+//	}
 	
 	public void clearTablePartition(){
 		jPanelEast.cleanTablePartition();
 	}
 	
-	public String getSelectedPartition() {
-		return jPanelWest.getSelectedPartition();
-	}
+//	public String getSelectedPartition() {
+//		return jPanelWest.getSelectedPartition();
+//	}
 	
 	
 }

@@ -13,12 +13,17 @@ public class Process {
 		this.processSize = processSize;
 		this.partitionName = partitionName;
 	}
+	
+	public Process(String processName, int processTime, int processSize) {
+		this.processName = processName;
+		this.processTime = processTime;
+		this.processSize = processSize;
+	}
 
 	public Process(Process process) {
 		setProcessName(process.getProcessName());
 		setProcessTime(process.getProcessTime());
 		setPartitionName(process.getPartitionName());
-		setProcessSize(process.getProcessSize());
 	}
 	
 	public String getProcessName() {

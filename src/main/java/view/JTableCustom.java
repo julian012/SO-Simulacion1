@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,8 +18,9 @@ public class JTableCustom extends JPanel {
 	private DefaultTableModel model;
     private JTable jTVideoList;
     private JScrollPane jScrollPaneVideoList;
+    private JLabel jLTitle;
 
-    public JTableCustom(String[] headerTable){
+    public JTableCustom(String[] headerTable, String title){
         setLayout(new BorderLayout());
         model = new DefaultTableModel();
         model.setColumnIdentifiers(headerTable);
@@ -41,6 +43,12 @@ public class JTableCustom extends JPanel {
         jScrollPaneVideoList.setBackground(new Color(24, 24, 24));
         jScrollPaneVideoList.getViewport().setBackground(Color.WHITE);
         add(jScrollPaneVideoList, BorderLayout.CENTER);
+        jLTitle = new JLabel(title, JLabel.CENTER);
+        jLTitle.setBackground(new Color(24, 24, 24));
+        jLTitle.setOpaque(true);
+        jLTitle.setForeground(Color.WHITE);
+        jLTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        add(jLTitle, BorderLayout.NORTH);
         setVisible(true);
     }
 

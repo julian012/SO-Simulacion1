@@ -24,8 +24,8 @@ public class JPanelWest extends JPanel implements ActionListener{
     private JLabel jLSize;
     private JTextField jTFSize;
     
-    private JLabel jLSelectPartition;
-    private JComboBox<String> jCBPartition;
+    //private JLabel jLSelectPartition;
+    //private JComboBox<String> jCBPartition;
     
     private JButton jBSaveProcess;    
     private JButton jBCleanProcessForm;
@@ -149,22 +149,22 @@ public class JPanelWest extends JPanel implements ActionListener{
         constraints.weighty = 1;
         this.add(jTFSize, constraints);
         
-        jLSelectPartition = new JLabel("Seleccionar Partición");
-        jLSelectPartition.setForeground(Color.decode("#2E8B57"));
+        //jLSelectPartition = new JLabel("Seleccionar Partición");
+        //jLSelectPartition.setForeground(Color.decode("#2E8B57"));
         constraints.gridx = 1;
         constraints.gridy = 6;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
-        this.add(jLSelectPartition, constraints);
+        //this.add(jLSelectPartition, constraints);
         
-        jCBPartition = new JComboBox<String>();
+        //jCBPartition = new JComboBox<String>();
         constraints.gridx = 2;
         constraints.gridy = 6;
         constraints.gridwidth = 1;
         //constraints.weightx = 0.04;
         constraints.weighty = 1;
-        this.add(jCBPartition, constraints);
+        //this.add(jCBPartition, constraints);
         
         jBSaveProcess = new JButton("Agregar Proceso");
         jBSaveProcess.addActionListener(actionListener);
@@ -323,7 +323,7 @@ public class JPanelWest extends JPanel implements ActionListener{
     	((AbstractDocument) jTFSize.getDocument()).setDocumentFilter(null);
     	jTFSize.setText("");
     	((AbstractDocument) jTFSize.getDocument()).setDocumentFilter(new CustomDocumentFilter());
-    	validatePartitionList();
+    	//validatePartitionList();
     }
     
     public void cleanPartitionForm(){
@@ -378,7 +378,7 @@ public class JPanelWest extends JPanel implements ActionListener{
     	return button;
     }
     
-    public void loadPartitions(String value) {
+    /*public void loadPartitions(String value) {
     	jCBPartition.addItem(value);
     }
     
@@ -392,7 +392,7 @@ public class JPanelWest extends JPanel implements ActionListener{
     
     public String getSelectedPartition() {
     	return jCBPartition.getItemAt(jCBPartition.getSelectedIndex());
-    }
+    }*/
     
     
    /* public void changeStatusNewPriority() {
